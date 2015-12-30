@@ -16,7 +16,7 @@ app.get('/api/v3/check', function(req, res) {
       res.send(plateStatus);
     },
     onError: function(error) {
-      res.send(500, { error: "Error", message: error.message });
+      res.status(500).send({ error: "Error", message: error.message });
     }
   });
 });
