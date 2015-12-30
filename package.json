@@ -4,6 +4,7 @@
   "description": "Belgian DIV API",
   "main": "server.js",
   "scripts": {
+    "start": "node_modules\\.bin\\nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -13,7 +14,12 @@
   "author": "Pierre Paridans",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.13.3",
+    "morgan": "^1.6.1",
     "phantomjs": "^1.9.19",
     "phantomjs-pool": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
   }
 }

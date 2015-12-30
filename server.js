@@ -1,17 +1,43 @@
+var express = require("express");
+var morgan = require("morgan");
 var Pool = require("phantomjs-pool").Pool;
+var app = express();
 
-var plates = [ "1ACY003", "1BCY002", "1cCY001", "1DCY004", "1ECY005", "1FCY006", "1GCY007" ];
+app.set('port', process.env.PORT || 3000);
+app.use(morgan("combined"));
+
+var platesQueue = [];
+
+app.get('/api/v3/check', function(req, res) {
+  var plate = req.query.plate;
+  platesQueue.push({
+    plate: plate,
+    onSuccess: function(plateStatus) {
+      res.send(plateStatus);
+    },
+    onError: function(error) {
+      res.send(500, { error: "Error", message: error.message });
+    }
+  });
+});
 
 var onWorkerReady = function (job, worker, index) {
-  if(plates.length === 0) {
-    job(null);
-  } else {
-    var plate = plates.pop();
-    console.log("Processing...", plate);
-    job({ plate: plate }, function(err, data) {
-      console.log("DONE", data);
-    });
-  }
+  console.log(worker, index)
+  setInterval(function() {
+    if(platesQueue.length !== 0) {
+      var plateEnquiry = platesQueue.pop();
+      var plate = plateEnquiry.plate;
+      console.log("Processing...", plate);
+      job({ plate: plate }, function(err, data) {
+        console.log("DONE", err, data);
+        if(err === null) {
+          plateEnquiry.onSuccess(data);
+        } else {
+          plateEnquiry.onError(err);
+        }
+      });
+    }
+  }, 100);
 };
 
 var pool = new Pool({
@@ -22,3 +48,8 @@ var pool = new Pool({
 
 pool.start();
 
+var server = app.listen(app.get('port'), function() {
+  var host = server.address().address;
+
+  console.log("DivAPi listening on port %s", app.get('port'));
+});
