@@ -41,7 +41,7 @@ var onWorkerReady = function (job, worker, index) {
 };
 
 var pool = new Pool({
-  numWorkers: 2,
+  numWorkers: 1,
   jobCallback: onWorkerReady,
   workerFile: __dirname + "/check_plate.js"
 });
