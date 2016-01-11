@@ -1,6 +1,9 @@
 {
   "name": "div-api",
   "version": "3.0.0",
+  "engines": {
+    "node": "0.12.x"
+  },
   "description": "Belgian DIV API",
   "main": "server.js",
   "scripts": {
