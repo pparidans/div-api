@@ -16,8 +16,7 @@
   "dependencies": {
     "express": "^4.13.3",
     "morgan": "^1.6.1",
-    "phantomjs": "^1.9.19",
-    "phantomjs-pool": "^0.3.0"
+    "phantomjs": "^1.9.19"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"
