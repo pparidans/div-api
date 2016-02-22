@@ -17,7 +17,11 @@ page.onLoadFinished = function(status) {
     }
     page.switchToFrame("AppWindow");
     var message = page.evaluate(function() {
-      return document.getElementById('Readonly1').value;
+      var resultContainer = document.getElementById('Readonly1');
+      if(resultContainer === null) {
+        return null;
+      }
+      return resultContainer.value;
     });
     if(typeof message === 'string' && message.trim() !== "") {
       clearInterval(loadingCheckerId);
